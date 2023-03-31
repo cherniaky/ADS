@@ -76,8 +76,8 @@ CREATE TABLE Certificates (
 
 CREATE TABLE Enrollments (
   enrollment_id INT PRIMARY KEY,
-  student_id INT,
-  course_id INT,
+  student_id INT NOT NULL,
+  course_id INT NOT NULL,
   enrollment_date DATE,
   status VARCHAR2(40),
   completion_date DATE,

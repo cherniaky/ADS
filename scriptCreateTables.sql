@@ -47,8 +47,8 @@ CREATE TABLE Instructor_Course (
   instructor_id INT NOT NULL,
   course_id INT NOT NULL,
   PRIMARY KEY (instructor_id, course_id),
-  CONSTRAINT Instructor_Course_instructor_id  FOREIGN KEY (instructor_id) REFERENCES Instructors(instructor_id) ON DELETE CASCADE,
-  CONSTRAINT Instructor_Course_course_id  FOREIGN KEY (course_id) REFERENCES Courses(course_id) ON DELETE CASCADE
+  CONSTRAINT Instructor_Course_instructor_id FOREIGN KEY (instructor_id) REFERENCES Instructors(instructor_id) ON DELETE CASCADE,
+  CONSTRAINT Instructor_Course_course_id FOREIGN KEY (course_id) REFERENCES Courses(course_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Categories (
@@ -56,15 +56,15 @@ CREATE TABLE Categories (
   category_name VARCHAR2(40),
   category_description VARCHAR2(100),
   parent_category_id INT,
-  CONSTRAINT Categories_parent_category_id  FOREIGN KEY (parent_category_id) REFERENCES Categories(category_id)
+  CONSTRAINT Categories_parent_category_id FOREIGN KEY (parent_category_id) REFERENCES Categories(category_id)
 );
 
 CREATE TABLE Category_Course (
   category_id INT,
   course_id INT,
   PRIMARY KEY (category_id, course_id),
-  CONSTRAINT Category_Course_category_id  FOREIGN KEY (category_id) REFERENCES Categories(category_id),
-  CONSTRAINT Category_Course_course_id  FOREIGN KEY (course_id) REFERENCES Courses(course_id)
+  CONSTRAINT Category_Course_category_id FOREIGN KEY (category_id) REFERENCES Categories(category_id),
+  CONSTRAINT Category_Course_course_id FOREIGN KEY (course_id) REFERENCES Courses(course_id)
 );
 
 CREATE TABLE Certificates (
@@ -76,15 +76,15 @@ CREATE TABLE Certificates (
 
 CREATE TABLE Enrollments (
   enrollment_id INT PRIMARY KEY,
-  student_id INT,
-  course_id INT,
+  student_id INT NOT NULL,
+  course_id INT NOT NULL,
   enrollment_date DATE,
   status VARCHAR2(40),
   completion_date DATE,
   certificate_id INT UNIQUE,
-  CONSTRAINT Enrollments_student_id  FOREIGN KEY (student_id) REFERENCES Students(student_id),
-  CONSTRAINT Enrollments_course_id  FOREIGN KEY (course_id) REFERENCES Courses(course_id),
-  CONSTRAINT Enrollments_certificate_id  FOREIGN KEY (certificate_id) REFERENCES Certificates(certificate_id)
+  CONSTRAINT Enrollments_student_id FOREIGN KEY (student_id) REFERENCES Students(student_id),
+  CONSTRAINT Enrollments_course_id FOREIGN KEY (course_id) REFERENCES Courses(course_id),
+  CONSTRAINT Enrollments_certificate_id FOREIGN KEY (certificate_id) REFERENCES Certificates(certificate_id)
 );
 
 CREATE TABLE Reviews (
@@ -105,5 +105,5 @@ CREATE TABLE Lessons (
   lesson_description VARCHAR2(250),
   video_URL VARCHAR2(1000),
   lesson_order INT,
-  CONSTRAINT Lessons_course_id  FOREIGN KEY (course_id) REFERENCES Courses(course_id)
+  CONSTRAINT Lessons_course_id FOREIGN KEY (course_id) REFERENCES Courses(course_id)
 );
