@@ -104,6 +104,7 @@ CREATE TABLE Lessons (
   lesson_title VARCHAR2(40),
   lesson_description VARCHAR2(250),
   video_URL VARCHAR2(1000),
+  duration INT,
   lesson_order INT,
   CONSTRAINT Lessons_course_id FOREIGN KEY (course_id) REFERENCES Courses(course_id)
 );
