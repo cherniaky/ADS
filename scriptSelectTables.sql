@@ -1,4 +1,3 @@
--- 1
 -- vypočíta celkové trvanie každého kurzu súčtom trvania jednotlivých lekcií
 CREATE VIEW Course_Duration AS
 SELECT
@@ -20,7 +19,6 @@ FROM
 GROUP BY
     course_id;
 
--- 2
 -- kombinuje rôzne dátové polia týkajúce sa kurzu (názov, opis, trvanie, cena atď.) s údajmi týkajúcimi sa jeho skúšky a in štruktora
 CREATE VIEW Course_Details AS
 SELECT
@@ -88,7 +86,6 @@ FROM
     JOIN Categories ON Category_Course.category_id = Categories.category_id
     LEFT JOIN Categories Categories_2 ON Categories.parent_category_id = Categories_2.category_id;
 
--- 3
 -- zobrazuje počet zápisov pre každý jazyk v tabuľke Kurzy
 CREATE VIEW course_enrollment_count_by_language AS
 SELECT
@@ -111,7 +108,6 @@ FROM
 GROUP BY
     "level";
 
--- 4
 -- spája údaje o študentoch, ktorí ukončili alebo sa zapísali do kurzu.
 CREATE VIEW combined_categories AS
 SELECT
@@ -126,7 +122,6 @@ FROM
     Enrollments e
     JOIN Students s ON e.student_id = s.student_id WHERE e.status = 'Enrolled';
 
--- 5
 -- zobrazuje 5 najlepších kurzov s najväčším počtom zápisov
 CREATE VIEW top_5_courses_enrollments AS
 SELECT
@@ -167,17 +162,24 @@ WHERE
             COUNT(*) > 1
     );
 
--- 6
+
 CREATE SEQUENCE seq_id START WITH 1 INCREMENT BY 1;
 
-CREATE OR REPLACE TRIGGER tr_insert_id 
-BEFORE INSERT ON Courses 
-FOR EACH ROW 
-BEGIN 
-  :NEW.course_id := seq_id.NEXTVAL;
+-- trigger ktory prida id pri pridavanii novych kurzov
+CREATE
+OR REPLACE TRIGGER tr_insert_id BEFORE
+INSERT
+    ON Courses FOR EACH ROW BEGIN
+SELECT
+    seq_id.NEXTVAL INTO :new.course_id
+FROM
+    dual;
+
 END;
 
--- 7
+/
+
+-- Trigger vypise upozornenie ked cena za kurz bude prilis velka
 CREATE OR REPLACE TRIGGER tr_check_price 
 BEFORE UPDATE OF price ON courses 
 FOR EACH ROW 
@@ -186,3 +188,4 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('Warning: The price of this course has been increased to a value greater than 100.');
   END IF;
 END;
+/

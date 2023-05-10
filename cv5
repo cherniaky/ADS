@@ -1,0 +1,18 @@
+-- Create table zamestnanci as select * from hr.employees;
+-- Alter table zamestnanci
+-- add constraint EMPLOYEE_ID Primary key (EMPLOYEE_ID);    
+-- insert into zamestnanci (EMPLOYEE_ID,last_name,hire_date,email,job_id)
+-- values (012313,'dasd',to_date('2022/04/22','YYYY/MM/DD'), 'dadsad',1);
+-- select * from zamestnanci where rownum <= 5;
+-- update zamestnanci set salary=salary * 1.1;
+-- select * from zamestnanci where ROWNUM <= 5;
+-- delete from zamestnanci where EMPLOYEE_ID > 190;
+-- select * from zamestnanci where salary >= 500;
+-- select * from hr.departments;
+-- select * from zamestnanci join hr.departments using (DEPARTMENT_ID) where DEPARTMENT_NAME='IT';
+-- select extract(mouth from hire_date) from dual;
+-- select * from zamestnanci where extract(month from hire_date) = 4;
+select
+    email || '@tuke.sk' as email
+from
+    zamestnanci;

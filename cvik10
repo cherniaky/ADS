@@ -1,0 +1,43 @@
+-- b
+CREATE
+OR REPLACE TRIGGER DELETE_ORDER_TRIGGER before DELETE ON orders FOR EAch ROW BEGIN
+DELETE FROM
+    order_items
+where
+    order_id = :old.ORDER_ID;
+
+END;
+
+-- c
+CREATE VIEW department_list AS
+SELECT
+    d.department_name,
+    count(*) as count
+from
+    departments d
+    join employees e using(department_id)
+group by
+    d.department_name;
+
+select
+    *
+from
+    department_list;
+
+-- d
+-- e
+CREATE
+OR REPLACE TRIGGER update_department_list instead of
+update on department_list BEGIN
+IF updating("count") then raise_application_error(-20000, "dads");
+elsif updating("department_name") then
+update
+    departments
+set
+    department_name = :new.department_name
+where
+    department_name = :old.department_name;
+
+end if;
+
+END;
